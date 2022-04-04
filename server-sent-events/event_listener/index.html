@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!--
+based on
+https://developer.mozilla.org/es/docs/Web/API/Server-sent_events/Using_server-sent_events
+and
+https://medium.com/code-zen/python-generator-and-html-server-sent-events-3cdf14140e56
+-->
+
+<html>
+<body>
+
+<h1>Getting server updates</h1>
+<div id="result"></div>
+
+<script>
+if(typeof(EventSource) !== "undefined") {
+  var targetContainer = document.getElementById("result");
+  var eventSource = new EventSource("http://127.0.0.1:5000/stream");
+  eventSource.addEventListener("color-change", function(e) {
+  targetContainer.style.color =  e.data;
+}, false);
+  eventSource.onmessage = function(e) {
+    // check if its a number. Else , assume it is a color for "color-change"
+    if(!isNaN(e.data)){
+      targetContainer.innerHTML = e.data;
+    };
+  };
+} else {
+  document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
+}
+</script>
+
+</body>
+</html>

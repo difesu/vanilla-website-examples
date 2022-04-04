@@ -1,3 +1,5 @@
-1. Optional: create an environment
-2. pip install -r requirements.txt
-3. python server.py
+ToDo
+1. Implement evtSource.close(); when changing tab / window
+2. Client security :
+ a. Different endpoints
+ b. Different message structure

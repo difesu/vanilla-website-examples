@@ -16,8 +16,10 @@ def eventStream():
 
 @app.route("/stream")
 def sse_stream():
-    response =  Response(eventStream(), mimetype="text/event-stream")
+    response = Response(eventStream(), mimetype="text/event-stream")
     response.headers['Access-Control-Allow-Origin'] = '*'
-    return response 
+    return response
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)

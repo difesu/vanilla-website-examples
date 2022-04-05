@@ -93,7 +93,8 @@ console.log(sense)
       x = rows[i].getElementsByTagName("TD")[column_number];
       y = rows[i + 1].getElementsByTagName("TD")[column_number];
       x_gt_y = x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()
-      if ((sense == "∧" & x_gt_y)|(sense == "∨" & !x_gt_y)) {
+      x_lt_y = x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()
+      if ((sense == "∧" & x_gt_y)|(sense == "∨" & x_lt_y)) {
         shouldSwitch = true;
         break;
       }

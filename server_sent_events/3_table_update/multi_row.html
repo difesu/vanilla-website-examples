@@ -16,6 +16,7 @@ if(typeof(EventSource) !== "undefined") {
   var targetContainer = document.getElementById("table1");
   var eventSource = new EventSource("http://127.0.0.1:5000/stream");
   var table_id = "table1";
+  var max_table_len = 3;
   eventSource.onmessage = function(e) {
     col_data = e.data.split(';');
     data_len = col_data.length;
@@ -23,10 +24,14 @@ if(typeof(EventSource) !== "undefined") {
     table = document.getElementById(table_id);
     rows = table.rows;
     col_len = rows[0].getElementsByTagName("TH").length;
+    //add row
+    var row = table.insertRow(1);
     //
     for (var i = 0; i< Math.min(data_len, col_len) ; i++) {
-      rows[1].getElementsByTagName("TD")[i].innerHTML = col_data[i];
+      var cell = row.insertCell(i);
+      cell.innerHTML = col_data[i];
     }
+    table.deleteRow(max_table_len+1);
   };
 } else {
   document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
@@ -51,9 +56,9 @@ table, th, td {
     <th>Col3</th>
   </tr>
   <tr>
-    <td>value_1_1</td>
-    <td>value_2_1</td>
-    <td>value_3_1</td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
 
 </table>

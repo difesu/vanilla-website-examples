@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+based on
+https://developer.mozilla.org/es/docs/Web/API/Server-sent_events/Using_server-sent_events
+and
+https://medium.com/code-zen/python-generator-and-html-server-sent-events-3cdf14140e56
+-->
+
+<html>
+<body>
+
+<h1>Getting server updates</h1>
+
+<script>
+if(typeof(EventSource) !== "undefined") {
+  var targetContainer = document.getElementById("table1");
+  var eventSource = new EventSource("http://127.0.0.1:5000/stream");
+  var table_id = "table1";
+  eventSource.onmessage = function(e) {
+    col_data = e.data.split(';');
+    data_len = col_data.length;
+    //
+    table = document.getElementById(table_id);
+    rows = table.rows;
+    col_len = rows[0].getElementsByTagName("TH").length;
+    //
+    for (var i = 0; i< Math.min(data_len, col_len) ; i++) {
+      rows[1].getElementsByTagName("TD")[i].innerHTML = col_data[i];
+    }
+  };
+} else {
+  document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
+}
+</script>
+
+<!-- https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table3 -->
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+
+
+
+<h2>A basic HTML table</h2>
+
+<table id="table1" style="width:100%">
+  <tr>
+    <th>Col1</th>
+    <th>Colt2</th>
+    <th>Col3</th>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+</table>
+
+
+</body>
+</html>

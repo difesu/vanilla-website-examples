@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<!-- based on
+https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
+  -->
+<body>
+ <!--
+ <script type="text/javascript" src="config.js" defer></script>
+ <script  type="text/javascript" src="functions.js" defer></script>
+-->
+<script  type="module" defer>
+  import * as config from "http://localhost:5000/js/config.js";
+  import * as functions from "http://localhost:5000/js/functions.js";
+
+  functions.openDb(
+    config.DB_NAME,
+    config.DB_VERSION,
+    config.OBJECT_STORE_NAME,
+    config.KEY_PATH,
+    config.KEY_AUTO_INC
+  );
+
+</script>
+
+</body>
+</html>

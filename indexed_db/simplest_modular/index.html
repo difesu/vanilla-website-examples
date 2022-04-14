@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<!-- based on
+https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
+  -->
+<body>
+ <!--
+ <script type="text/javascript" src="config.js" defer></script>
+ <script  type="text/javascript" src="functions.js" defer></script>
+-->
+<script  type="module" defer>
+  import {DB_NAME,DB_VERSION,OBJECT_STORES} from "http://localhost:5000/js/config.js";
+  import IDB from "http://localhost:5000/js/classes.js";
+
+
+  var idb;
+
+  async function init_idb() {
+    idb = new IDB(DB_NAME,DB_VERSION,OBJECT_STORES);
+     idb.openDB();
+
+     let max_iter = 3000;
+     let i = 0;
+     while (idb.db == null & i<max_iter) {
+       await new Promise((resolve, reject) => setTimeout(resolve, 1));
+       i++;
+     }
+     console.log(idb.db);
+     return 1;
+  }
+
+  init_idb();
+  window.test_idb= ()=> {
+    console.log(idb);
+  }
+
+</script>
+<input type='button' onclick='test_idb()'/>
+</body>
+</html>

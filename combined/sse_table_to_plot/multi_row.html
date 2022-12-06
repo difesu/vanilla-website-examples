@@ -7,29 +7,39 @@ https://medium.com/code-zen/python-generator-and-html-server-sent-events-3cdf141
 -->
 
 <html>
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
+  </head>
 <body>
 
 <h1>Getting server updates</h1>
-
+<p id="temp" style="display: none;">0</p>
 <script>
 if(typeof(EventSource) !== "undefined") {
   var targetContainer = document.getElementById("table1");
   var eventSource = new EventSource("http://127.0.0.1:5000/stream");
   var table_id = "table1";
-  var max_table_len = 5;
+  var max_table_len = 3;
   eventSource.onmessage = function(e) {
     col_data = e.data.split(';');
     data_len = col_data.length;
     //
     table = document.getElementById(table_id);
     rows = table.rows;
+    //update row styles to fit position
     col_len = rows[0].getElementsByTagName("TH").length;
+    //get last row position
+
+    var last_row_pos = document.getElementById("temp").innerHTML;
+    console.log(last_row_pos);
     //add row
     var row = table.insertRow(1);
-    //
+    //put event data into cells
     for (var i = 0; i< Math.min(data_len, col_len) ; i++) {
       var cell = row.insertCell(i);
-      cell.innerHTML = col_data[i];
+      cell.innerHTML = "<span class=\"data\">"+  col_data[i] + "<\span>";
+      cell.style =  "--start:   "+ parseFloat(last_row_pos)/10+ "; --size:" + parseFloat(col_data[i])/10;
+      last_row_pos.innerHTML = col_data[i];
     }
     table.deleteRow(max_table_len+1);
   };
@@ -40,27 +50,31 @@ if(typeof(EventSource) !== "undefined") {
 
 <!-- https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table3 -->
 <style>
-table, th, td {
-  border:1px solid black;
+
+#table1.line {
+  height: 200px;
+  max-width: 400px;
+  margin: 0 auto;
 }
+
 </style>
 
 
 
 <h2>A basic HTML table</h2>
 
-<table id="table1" style="width:100%">
+<table class="charts-css line"  id="table1" style="width:100%">
+
+  
   <tr>
     <th>Col1</th>
-    <th>Colt2</th>
-    <th>Col3</th>
   </tr>
+  <tbody>
+
   <tr>
     <td></td>
-    <td></td>
-    <td></td>
   </tr>
-
+</tbody>
 </table>
 
 
